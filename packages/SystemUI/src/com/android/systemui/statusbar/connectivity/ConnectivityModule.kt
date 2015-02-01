@@ -24,6 +24,7 @@ import com.android.systemui.qs.tiles.DataSaverTile
 import com.android.systemui.qs.tiles.HotspotTile
 import com.android.systemui.qs.tiles.InternetTile
 import com.android.systemui.qs.tiles.NfcTile
+import com.android.systemui.qs.tiles.UsbTetherTile
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -67,6 +68,10 @@ interface ConnectivityModule {
     @IntoMap
     @StringKey(DataSaverTile.TILE_SPEC)
     fun bindDataSaverTile(dataSaverTile: DataSaverTile): QSTileImpl<*>
+
+    @IntoMap
+    @StringKey(UsbTetherTile.TILE_SPEC)
+    fun bindUsbTetherTile(usbTetherTile: UsbTetherTile): QSTileImpl<*>
 
     /** Inject NfcTile into tileMap in QSModule */
     @Binds @IntoMap @StringKey(NfcTile.TILE_SPEC) fun bindNfcTile(nfcTile: NfcTile): QSTileImpl<*>
