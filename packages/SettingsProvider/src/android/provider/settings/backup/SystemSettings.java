@@ -132,5 +132,6 @@ public class SystemSettings {
         Settings.System.VOLUME_BUTTON_MUSIC_CONTROL,
         Settings.System.VOLUME_BUTTON_MUSIC_CONTROL_DELAY,
         Settings.System.OMNI_ADVANCED_REBOOT,
+        Settings.System.SCREENSHOT_SHUTTER_SOUND,
     };
 }
