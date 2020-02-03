@@ -117,5 +117,6 @@ public class SystemSettings {
         Settings.System.GAMING_MODE_MEDIA_ENABLED,
         Settings.System.GAMING_MODE_MEDIA,
         Settings.System.NOTIFICATION_HEADERS,
+        Settings.System.RINGTONE_VIBRATION_PATTERN,
     };
 }
