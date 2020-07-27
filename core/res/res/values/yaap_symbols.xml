@@ -26,4 +26,7 @@
     <java-symbol type="string" name="persist_fp" />
     <java-symbol type="string" name="persist_model" />
 
+    <!-- Cycle through ringer modes -->
+    <java-symbol type="string" name="volume_dialog_ringer_guidance_normal" />
+
 </resources>
