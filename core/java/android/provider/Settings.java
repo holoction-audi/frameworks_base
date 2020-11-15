@@ -6006,7 +6006,15 @@ public final class Settings {
         /**
          * @hide
          */
+        @Readable
         public static final String SCREENSHOT_SHUTTER_SOUND = "screenshot_shutter_sound";
+
+        /**
+         * Whether to show media album art on keyguard
+         * @hide
+         */
+        @Readable
+        public static final String KEYGAURD_MEDIA_ART = "keygaurd_media_art";
 
         /**
          * IMPORTANT: If you add a new public settings you also have to add it to
