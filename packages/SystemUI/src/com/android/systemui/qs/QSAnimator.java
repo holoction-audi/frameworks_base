@@ -17,6 +17,7 @@ package com.android.systemui.qs;
 import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
 import android.annotation.NonNull;
+import android.provider.Settings;
 import android.util.Log;
 import android.util.Pair;
 import android.util.SparseArray;
@@ -129,8 +130,6 @@ public class QSAnimator implements QSHost.Callback, PagedTileLayout.PageListener
     private final SparseArray<Pair<HeightExpansionAnimator, TouchAnimator>>
             mNonFirstPageQSAnimators = new SparseArray<>();
 
-    private final TunerService mTunerService;
-
     private boolean mNeedsAnimatorUpdate = false;
     private boolean mOnKeyguard;
 
@@ -159,7 +158,6 @@ public class QSAnimator implements QSHost.Callback, PagedTileLayout.PageListener
         mHost = qsTileHost;
         mExecutor = executor;
         mQSExpansionPathInterpolator = qsExpansionPathInterpolator;
-        mTunerService = tunerService;
         mHost.addCallback(this);
         mQsPanelController.addOnAttachStateChangeListener(this);
         qs.getView().addOnLayoutChangeListener(this);
@@ -440,8 +438,9 @@ public class QSAnimator implements QSHost.Callback, PagedTileLayout.PageListener
         }
 
         View qsBrightness = mQsPanelController.getBrightnessView();
-        final boolean bottom = mTunerService.getValue(
-                QSPanel.QS_BRIGHTNESS_POSITION_BOTTOM, 0) == 1;
+        final boolean bottom = Settings.Secure.getInt(
+                qsBrightness.getContext().getContentResolver(),
+                Settings.Secure.QS_BRIGHTNESS_POSITION_BOTTOM, 0) == 1;
         if (bottom) {
             // If brightness is showing at the bottom fade in as we reach the final position
             builder.addFloat(qsBrightness, "alpha", 0, 1);
