@@ -134,5 +134,6 @@ public class SystemSettings {
         Settings.System.OMNI_ADVANCED_REBOOT,
         Settings.System.SCREENSHOT_SHUTTER_SOUND,
         Settings.System.KEYGAURD_MEDIA_ART,
+        Settings.System.QS_SHOW_BATTERY_ESTIMATE,
     };
 }
