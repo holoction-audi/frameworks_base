@@ -319,6 +319,10 @@ public class LocationManagerService extends ILocationManager.Stub implements
 
     @Nullable
     LocationProviderManager getLocationProviderManager(String providerName) {
+        return getLocationProviderManager(providerName, false /* ignorePassive */);
+    }
+
+    private LocationProviderManager getLocationProviderManager(String providerName, boolean ignorePassive) {
         if (providerName == null) {
             return null;
         }
@@ -330,6 +334,11 @@ public class LocationManagerService extends ILocationManager.Stub implements
                 }
                 return manager;
             }
+        }
+
+        if (!ignorePassive && NETWORK_PROVIDER.equals(providerName)) {
+            Log.d(TAG, "replaced NETWORK with the PASSIVE provider for uid " + Binder.getCallingUid());
+            return mPassiveManager;
         }
 
         return null;
@@ -354,7 +363,7 @@ public class LocationManagerService extends ILocationManager.Stub implements
     void addLocationProviderManager(
             LocationProviderManager manager, @Nullable AbstractLocationProvider realProvider) {
         synchronized (mProviderManagers) {
-            Preconditions.checkState(getLocationProviderManager(manager.getName()) == null);
+            Preconditions.checkState(getLocationProviderManager(manager.getName(), true /* ignorePassive */) == null);
 
             manager.startManager(this);
 
