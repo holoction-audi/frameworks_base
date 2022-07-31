@@ -3158,6 +3158,8 @@ public final class SystemServer implements Dumpable {
                 reportWtf("Triggering OdsignStatsLogger", e);
             }
             t.traceEnd();
+
+            com.android.server.ext.SystemServerExt.init(mSystemContext, mPackageManagerService);
         }, t);
 
         t.traceBegin("LockSettingsThirdPartyAppsStarted");
