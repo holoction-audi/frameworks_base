@@ -1186,6 +1186,8 @@ public class ScreenshotController {
                 mUiEventLogger.log(ScreenshotEvent.SCREENSHOT_SAVED_TO_WORK_PROFILE, 0,
                         mPackageName);
             }
+            mNotificationsController.showPostActionNotification(
+                    imageData, mScreenBitmap);
         }
     }
 
