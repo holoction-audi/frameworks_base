@@ -3459,7 +3459,7 @@ public final class NotificationPanelViewController implements ShadeSurface, Dump
                 mSettingsChangeObserver
         );
         mContentResolver.registerContentObserver(
-                Settings.System.getUriFor(Settings.System.KEYGUARD_QUICK_TOGGLES),
+                Settings.System.getUriFor(Settings.System.KEYGUARD_QUICK_TOGGLES_NEW),
                 /* notifyForDescendants */ false,
                 mSettingsChangeObserver
         );
@@ -4321,7 +4321,7 @@ public final class NotificationPanelViewController implements ShadeSurface, Dump
             debugLog("onSettingsChanged");
 
             if (uri.getLastPathSegment().equals(
-                    Settings.System.KEYGUARD_QUICK_TOGGLES)) {
+                    Settings.System.KEYGUARD_QUICK_TOGGLES_NEW)) {
                 mKeyguardBottomAreaViewModel.updateSettings();
             }
 

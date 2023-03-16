@@ -156,6 +156,6 @@ public class SystemSettings {
         Settings.System.NOTIFICATION_VIBRATION_PATTERN,
         Settings.System.CUSTOM_NOTIFICATION_VIBRATION_PATTERN,
         Settings.System.STATUS_BAR_NOTIF_COUNT,
-        Settings.System.KEYGUARD_QUICK_TOGGLES,
+        Settings.System.KEYGUARD_QUICK_TOGGLES_NEW,
     };
 }
