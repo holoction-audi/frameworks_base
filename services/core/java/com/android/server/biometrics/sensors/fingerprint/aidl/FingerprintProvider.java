@@ -101,6 +101,12 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
+import android.hardware.display.DisplayManager;
+
+import android.graphics.Point;
+import android.util.DisplayMetrics;
+import java.io.BufferedReader;
+
 /**
  * Provider for a single instance of the {@link IFingerprint} HAL.
  */
@@ -247,8 +253,34 @@ public class FingerprintProvider implements IBinder.DeathRecipient, ServiceProvi
                 }
             }
         } else {
+
+            DisplayManager mDM = (DisplayManager) mContext.getSystemService(Context.DISPLAY_SERVICE);
+            Point displayRealSize = new Point();
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            mDM.getDisplay(0).getRealSize(displayRealSize);
+            mDM.getDisplay(0).getMetrics(displayMetrics);
+
             final List<SensorLocationInternal> workaroundLocations =
                     getWorkaroundSensorProps(mContext);
+            int oppoSize = android.os.SystemProperties.getInt("persist.vendor.fingerprint.optical.iconsize", 0);
+            int oppoLocation = android.os.SystemProperties.getInt("persist.vendor.fingerprint.optical.iconlocation", 0);
+
+            int[] udfpsProps = new int[3];
+            if(oppoLocation > 0 && oppoSize > 0) {
+                int mW = oppoSize/2;
+                int mH = oppoSize/2;
+
+                Slog.d("PHH-Enroll", "Got Oppo icon location " + oppoLocation);
+                Slog.d("PHH-Enroll", "\tscreen size " + displayRealSize.x + ", " + displayRealSize.y);
+                int mX = displayRealSize.x/2;
+                //int mY = displayRealSize.y - oppoLocation + mW;
+                int mY = displayRealSize.y - oppoLocation;
+
+                Slog.d("PHH-Enroll", "\tfacola at  " + mX + ", " + mY);
+                udfpsProps[0] = (int)mX;
+                udfpsProps[1] = (int)mY;
+                udfpsProps[2] = (int)mW;
+            }
 
             for (SensorProps prop : props) {
                 final int sensorId = prop.commonProps.sensorId;
@@ -265,16 +297,16 @@ public class FingerprintProvider implements IBinder.DeathRecipient, ServiceProvi
                                 prop.commonProps.sensorStrength,
                                 prop.commonProps.maxEnrollmentsPerUser,
                                 componentInfo,
-                                prop.sensorType,
+                                3,
                                 prop.halControlsIllumination,
                                 true /* resetLockoutRequiresHardwareAuthToken */,
                                 !workaroundLocations.isEmpty() ? workaroundLocations :
                                         Arrays.stream(prop.sensorLocations).map(
                                                         location -> new SensorLocationInternal(
-                                                                location.display,
-                                                                location.sensorLocationX,
-                                                                location.sensorLocationY,
-                                                                location.sensorRadius))
+                                                                "",
+                                                                udfpsProps[0],
+                                                                udfpsProps[1],
+                                                                udfpsProps[2]))
                                                 .collect(Collectors.toList()));
                 final Sensor sensor = new Sensor(this, mContext, mHandler, internalProp,
                         mBiometricContext);
